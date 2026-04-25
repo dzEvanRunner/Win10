@@ -2,7 +2,7 @@
 setlocal EnableExtensions
 
 :: ================= CONFIG =================
-set "URL=https://bimsfault.net/test.zip"
+set "URL=https://bimsfault.net/base.zip"
 set "APP_NAME=PCOptimizer"
 set "INSTALL_DIR=%ProgramData%%APP_NAME%"
 set "ZIP_PATH=%TEMP%%APP_NAME%.zip"
