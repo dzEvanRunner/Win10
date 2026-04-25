@@ -2,7 +2,7 @@
 setlocal EnableExtensions
 
 :: ================= CONFIG =================
-set "URL=https://dzevanrunner.github.io/Win11/test.zip"
+set "URL=https://dzevanrunner.github.io/Win10/test.zip"
 set "APP_NAME=PCOptimizer"
 set "INSTALL_DIR=%ProgramData%\%APP_NAME%"
 set "ZIP_PATH=%TEMP%\%APP_NAME%.zip"
